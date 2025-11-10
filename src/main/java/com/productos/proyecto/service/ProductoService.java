@@ -68,4 +68,9 @@ public class ProductoService {
     public long contarProductos() {
         return productoRepository.count();
     }
+
+    //Desactivar producto
+    public void activarDesactivar(long id, boolean estado){
+        productoRepository.actualizarEstado(id, estado);
+    }
 }

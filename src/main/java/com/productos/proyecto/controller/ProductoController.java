@@ -104,4 +104,19 @@ public class ProductoController {
         List<Producto> productos = productoService.buscarEnNombreODescripcion(texto);
         return ResponseEntity.ok(productos);
     }
+
+    //Desactivar producto
+    @PatchMapping("/{id}/estado")
+    public ResponseEntity<Void> cambiarEstado(
+            @PathVariable Long id,
+            @RequestParam Boolean activo) {
+
+        if (!productoService.existeProducto(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        productoService.activarDesactivar(id, activo);
+        return ResponseEntity.ok().build();
+    }
+
 }

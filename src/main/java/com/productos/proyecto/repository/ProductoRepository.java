@@ -2,6 +2,9 @@ package com.productos.proyecto.repository;
 
 import com.productos.proyecto.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,4 +39,12 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
     // Buscar productos por rango de precios
     List<Producto> findByPrecioBetween(Double precioMin, Double precioMax);
+
+    // Metodo para desactivar producto
+    @Modifying
+    @Query("UPDATE Producto p SET p.activo = :activo WHERE p.id = :id")
+    void actualizarEstado(@Param("id") Long id, @Param("activo") Boolean activo);
+
+
+
 }

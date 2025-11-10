@@ -3,6 +3,8 @@ package com.productos.proyecto.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "productos")
 @Data
@@ -28,5 +30,16 @@ public class Producto {
 
         @Column(unique = true)
         private String sku;
+
+        @Column(nullable = false)
+        private Boolean activo = true;
+
+        @Column()
+        private LocalDateTime fechaCreacion = LocalDateTime.now();
+
+        // Decimos que la relacion sera, un producto puede tener una categoria.
+        @ManyToOne
+        @JoinColumn(name = "categoria_id")
+        private Categoria categoria;
 
 }
