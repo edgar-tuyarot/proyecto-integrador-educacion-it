@@ -1,7 +1,7 @@
-package com.productos.proyecto.service;
+package com.limpiezaIt.service.impl;
 
-import com.productos.proyecto.model.Categoria;
-import com.productos.proyecto.repository.CategoriaRepository;
+import com.limpiezaIt.entity.Categoria;
+import com.limpiezaIt.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoriaService {
+public class CategoriaServiceImpl {
     @Autowired
     private CategoriaRepository categoriaRepository;
 

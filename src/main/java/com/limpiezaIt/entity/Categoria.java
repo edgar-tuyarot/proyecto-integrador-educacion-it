@@ -1,4 +1,4 @@
-package com.productos.proyecto.model;
+package com.limpiezaIt.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

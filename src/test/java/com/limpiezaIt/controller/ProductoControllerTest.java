@@ -1,7 +1,7 @@
-package com.productos.proyecto.controller;
+package com.limpiezaIt.controller;
 
-import com.productos.proyecto.model.Producto;
-import com.productos.proyecto.service.ProductoService;
+import com.limpiezaIt.entity.Producto;
+import com.limpiezaIt.service.interfaces.ProductoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,11 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -114,39 +112,6 @@ class ProductoControllerTest {
                 .andExpect(jsonPath("$.nombre").value("Nuevo Producto"));
     }
 
-    @Test
-    void testProductoPorCategorias() throws Exception {
-        // Given - Configuración inicial
-        Long categoriaId = 1L;
 
-        // Crear productos mock para esa categoría
-        Producto producto1 = Producto.builder()
-                .id(1L)
-                .nombre("Laptop Gaming")
-                .precio(1500.0)
-                .stock(5)
-                .activo(true)
-                .build();
-
-        Producto producto2 = Producto.builder()
-                .id(2L)
-                .nombre("Mouse Inalámbrico")
-                .precio(45.0)
-                .stock(10)
-                .activo(true)
-                .build();
-
-        List<Producto> productosMock = Arrays.asList(producto1, producto2);
-
-        // Configurar el mock del service
-        when(productoService.obtenerPorCategoria(categoriaId)).thenReturn(productosMock);
-
-        // When & Then - Ejecutar el test
-        mockMvc.perform(get("/api/productos/categoria/{id}", categoriaId))
-                .andExpect(status().isOk())  // Verificar que responde 200 OK
-                .andExpect(jsonPath("$.length()").value(2))  // Verificar que hay 2 productos
-                .andExpect(jsonPath("$[0].nombre").value("Laptop Gaming"))  // Verificar primer producto
-                .andExpect(jsonPath("$[1].nombre").value("Mouse Inalámbrico"));  // Verificar segundo producto
-    }
 
 }

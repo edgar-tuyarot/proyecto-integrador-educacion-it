@@ -1,7 +1,8 @@
-package com.productos.proyecto.service;
+package com.limpiezaIt.service;
 
-import com.productos.proyecto.model.Producto;
-import com.productos.proyecto.repository.ProductoRepository;
+import com.limpiezaIt.entity.Producto;
+import com.limpiezaIt.repository.ProductoRepository;
+import com.limpiezaIt.service.impl.ProductoServiceImp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ class ProductoServiceTest {
     private ProductoRepository productoRepository;
 
     @InjectMocks
-    private ProductoService productoService;
+    private ProductoServiceImp productoService;
 
     @Test
     void testGuardarProducto() {
@@ -80,7 +81,7 @@ class ProductoServiceTest {
     void testBuscarPorId_Existente() {
         // Given
         Producto producto = Producto.builder()
-                .nombre("Test Product")
+                .nombre("Test")
                 .precio(100.0)
                 .stock(10)
                 .activo(true)  // ← Empieza como activo

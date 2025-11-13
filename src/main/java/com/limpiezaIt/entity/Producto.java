@@ -1,4 +1,4 @@
-package com.productos.proyecto.model;
+package com.limpiezaIt.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,28 +15,20 @@ public class Producto {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-
         @Column(nullable = false, length = 100)
         private String nombre;
-
         @Column(length = 500)
         private String descripcion;
-
         @Column(nullable = false)
         private Double precio;
-
         @Column(nullable = false)
         private Integer stock;
-
         @Column(unique = true)
         private String sku;
-
         @Column(nullable = false)
         private Boolean activo = true;
-
-        @Column()
+        @Column
         private LocalDateTime fechaCreacion = LocalDateTime.now();
-
         // Decimos que la relacion sera, un producto puede tener una categoria.
         @ManyToOne
         @JoinColumn(name = "categoria_id")
