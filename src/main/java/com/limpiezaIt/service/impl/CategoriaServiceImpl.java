@@ -10,8 +10,13 @@ import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl {
+
+    private final CategoriaRepository categoriaRepository;
+
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    public CategoriaServiceImpl(CategoriaRepository categoriaRepository) {
+        this.categoriaRepository = categoriaRepository;
+    }
 
     //Guardar o actualizar categoría
     public Categoria guardarCategoria(Categoria categoria) {
@@ -29,36 +34,32 @@ public class CategoriaServiceImpl {
     }
 
 
-    //Verificar si existe categoría por nombre
-    public boolean existePorNombre(String nombre) {
-        return categoriaRepository.existsByNombre(nombre);
+    //Modificar categoría
+    public Categoria actualizar(Long id, Categoria categoria) {
+        //verificamos que la categoría esté en DB
+        Optional<Categoria> opt = buscarPorId(id);
+        //Si está, se pasa a actualizar
+        if (opt.isPresent()) {
+            Categoria categoriaDB = opt.get();
+            categoriaDB.setNombre(categoria.getNombre());
+            categoriaDB.setDescripcion(categoria.getDescripcion());
+            //Se guarda
+            return categoriaRepository.save(categoriaDB);
+        } else {
+            //Se retorna null si no está.
+            return null;
+        }
     }
 
-    //Buscar categorías por nombre que contenga texto
-    public List<Categoria> buscarPorNombreConteniendo(String texto) {
-        return categoriaRepository.findByNombreContainingIgnoreCase(texto);
+    //Borrado logico de categoría
+    public boolean desactivarCategoria(Long id) {
+        Optional<Categoria> opt = buscarPorId(id);
+        if (opt.isPresent()) {
+            Categoria categoria = opt.get();
+            categoria.setActivo(false);
+            categoriaRepository.save(categoria);
+            return true;
+        }
+        return false;
     }
-
-    //Obtener categorías con productos activos
-    public List<Categoria> obtenerCategoriasConProductosActivos() {
-        return categoriaRepository.findCategoriasConProductosActivos();
-    }
-
-    //Obtener categorías sin productos
-    public List<Categoria> obtenerCategoriasSinProductos() {
-        return categoriaRepository.findCategoriasSinProductos();
-    }
-
-    //Eliminar categoría por ID
-    public void eliminarCategoria(Long id) {
-        categoriaRepository.deleteById(id);
-    }
-
-    //Verificar si existe categoría por ID
-    public boolean existeCategoria(Long id) {
-        return categoriaRepository.existsById(id);
-    }
-
-
-
 }

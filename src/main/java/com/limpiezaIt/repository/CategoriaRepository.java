@@ -1,35 +1,31 @@
 package com.limpiezaIt.repository;
 
 import com.limpiezaIt.entity.Categoria;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoriaRepository  extends JpaRepository<Categoria, Long> {
 
+    //Construimos la query con activo y true
+    List<Categoria> findByActivoTrue();
 
-    //Buscar por nombre que contenga texto
-    List<Categoria> findByNombreContainingIgnoreCase(String nombre);
-
-    //Verificar si existe por nombre
-    boolean existsByNombre(String nombre);
-
-    //Buscar categorías con productos activos
-    @Query("SELECT DISTINCT c FROM Categoria c JOIN c.productos p WHERE p.activo = true")
-    List<Categoria> findCategoriasConProductosActivos();
-
-    //Contar productos por categoría
-    @Query("SELECT c.nombre, COUNT(p) FROM Categoria c LEFT JOIN c.productos p GROUP BY c.id")
-    List<Object[]> contarProductosPorCategoria();
+    //Buscar por id y activo true en optional
+    Optional<Categoria> findByActivoTrueAndId(Long id);
 
 
-    //Buscar categorías sin productos
-    @Query("SELECT c FROM Categoria c WHERE c.productos IS EMPTY")
-    List<Categoria> findCategoriasSinProductos();
-
+    // Metodo para desactivar producto
+    @Transactional
+    @Modifying
+    @Query("UPDATE Categoria c SET c.activo = false WHERE c.id = :id")
+    void desactivarCategoria(@Param("id") Long id);
 
 
 

@@ -5,20 +5,25 @@ import com.limpiezaIt.entity.Producto;
 import com.limpiezaIt.repository.ProductoRepository;
 import com.limpiezaIt.service.interfaces.ProductoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ProductoServiceImp implements ProductoService {
 
     private final ProductoRepository productoRepository;
 
+    @Autowired
+    public ProductoServiceImp(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+
     @Override
     public List<Producto> obtenerTodos() {
-        return productoRepository.findAll();
+        return productoRepository.findByActivoTrue();
     }
 
     @Override
@@ -28,7 +33,7 @@ public class ProductoServiceImp implements ProductoService {
 
     @Override
     public Optional<Producto> buscarPorId(Long id) {
-        return productoRepository.findById(id);
+        return productoRepository.findByActivoTrueAndId(id);
     }
 
     @Override

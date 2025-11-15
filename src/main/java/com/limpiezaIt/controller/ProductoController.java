@@ -49,7 +49,6 @@ public class ProductoController {
     public ResponseEntity<Producto> actualizarProducto(
             @PathVariable Long id,
             @RequestBody Producto productoActualizado) {
-        productoActualizado.setId(id);
         Producto producto = productoService.actualizar(id,productoActualizado);
         return ResponseEntity.ok(producto);
     }

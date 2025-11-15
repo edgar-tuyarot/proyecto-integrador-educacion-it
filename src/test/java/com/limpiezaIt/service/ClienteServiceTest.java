@@ -12,9 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -76,6 +76,28 @@ public class ClienteServiceTest {
         verify(clienteRepository, times(1)).findAll();
 
 
+    }
+
+    @Test
+    void testBuscarPorId() {
+        //Given
+        Long id = 1L;
+        Cliente nuevoCliente = Cliente.builder()
+                .nombre("Cliente 1")
+                .apellido("Apellido 1")
+                .celular("3624555419")
+                .email("e@mail.com")
+                .telefono("0303456")
+                .build();
+        when(clienteRepository.findById(id)).thenReturn(Optional.of(nuevoCliente));
+
+        //When
+        Optional<Cliente> resultado = clienteService.buscarPorId(id);
+
+        //Then
+        assertTrue(resultado.isPresent());
+        assertEquals("Cliente 1", resultado.get().getNombre());
+        verify(clienteRepository, times(1)).findById(id);
     }
 
 }

@@ -1,15 +1,27 @@
 package com.limpiezaIt.repository;
 
 import com.limpiezaIt.entity.Cliente;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
+
+
+    List<Cliente> findByActivoTrue();
+
+
+    Optional<Cliente> findByActivoTrueAndId(Long id);
+
     // Metodo para desactivar producto
+    @Transactional
     @Modifying
-    @Query("UPDATE Cliente c SET c.activo = false WHERE p.id = :id")
+    @Query("UPDATE Cliente c SET c.activo = false WHERE c.id = :id")
     void desactivarCliente(@Param("id") Long id);
 }

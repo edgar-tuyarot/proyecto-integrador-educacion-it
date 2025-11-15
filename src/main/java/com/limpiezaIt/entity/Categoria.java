@@ -1,5 +1,6 @@
 package com.limpiezaIt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,8 +29,13 @@ public class Categoria {
     @Column(length = 200)
     private String descripcion;
 
+    @Column(nullable = false)
+    private Boolean activo = true;
+
     //Definimos la relacion y decimos que: Una categoria puede tener muchos productos
     @OneToMany(mappedBy = "categoria")
+    //Usamos JsonIgnore para evitar referencia ciclica al momento de hacer un get
+    @JsonIgnore
     private List<Producto> productos = new ArrayList<>();
 
 
